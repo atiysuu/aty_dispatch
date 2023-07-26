@@ -17,7 +17,7 @@ RegisterNetEvent("aty_dispatch:server:shootingDispatch", function(title, code, l
             local xPlayer = Framework.GetPlayerFromId(player)
 
             for _, job in pairs(jobs) do
-                if xPlayer.PlayerData.job.name == job then
+                if xPlayer.PlayerData.job == job then
                     TriggerClientEvent("aty_dispatch:client:shootingDispatch", player, title, code, location, coords, gender, weapon, vehicleName, vehicle)
                 end
             end
@@ -43,7 +43,7 @@ RegisterNetEvent("aty_dispatch:server:customDispatch", function(title, code, loc
             local xPlayer = Framework.GetPlayerFromId(player)
 
             for _, job in pairs(jobs) do
-                if xPlayer.PlayerData.job.name == job then
+                if xPlayer.PlayerData.job == job then
                     TriggerClientEvent("aty_dispatch:client:customDispatch", player, title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite)
                 end
             end

@@ -1,6 +1,7 @@
 Framework = Config.Framework == "esx" and exports['es_extended']:getSharedObject() or exports['qb-core']:GetCoreObject()
 PlayerData = {}
 blips = {}
+PlayerJob = ""
 WaitTimes = {
     Shooting = 0,
     Speeding = 0,
@@ -16,8 +17,10 @@ CreateThread(function()
 
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
+            PlayerJob = PlayerData.job
         else
             PlayerData = Framework.Functions.GetPlayerData()
+            PlayerJob = PlayerData.job.name
         end
 
         for i, blip in pairs(blips) do
@@ -45,7 +48,7 @@ CreateThread(function()
                 if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
 
                     for k, jobs in pairs(Config.WhitelistedJobs) do
-                        if jobs == PlayerData.job.name then
+                        if jobs == PlayerJob then
                             return
                         end
                     end
@@ -81,7 +84,7 @@ CreateThread(function()
                 local vehicle = GetVehiclePedIsIn(ped, 0)
     
                 for k, jobs in pairs(Config.WhitelistedJobs) do
-                    if jobs == PlayerData.job.name then
+                    if jobs == PlayerJob then
                         return
                     end
                 end
@@ -107,7 +110,7 @@ AddEventHandler('gameEventTriggered', function(event, data)
             if not isDead then
                 Wait(3000)
                 
-                if PlayerData.job.name == jobs and PlayerData.job.name ~= "ambulance" then
+                if PlayerJob == jobs and PlayerJob~= "ambulance" then
                     SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
                     return
                 else
@@ -191,7 +194,7 @@ end)
 
 RegisterCommand("showDispatch", function()
     for k, jobs in pairs(Config.WhitelistedJobs) do
-        if PlayerData.job.name == jobs then
+        if PlayerJob == jobs then
             SendNUIMessage({
                 action = "showDispatch"
             })
