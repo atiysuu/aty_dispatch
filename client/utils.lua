@@ -25,13 +25,40 @@ function SendDispatch(title, code, blipSprite, jobs)
     local gender
 
     if Config.Framework == "esx" then
-        --
+        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
     else
         if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
     end
 
     TriggerServerEvent("aty_dispatch:server:customDispatch", title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite, jobs)
 end
+
+RegisterNetEvent("aty_dispatch:SendDispatch", function(title, code, blipSprite, jobs)
+    local title = title or "Placeholder"
+    local code = code or "10-11"
+    local blipSprite = blipSprite or 1
+    local ped = PlayerPedId()
+
+    local coords = GetEntityCoords(ped)
+    local streetHash, roadHash = GetStreetNameAtCoord(table.unpack(coords))
+    local location = {
+        street = GetStreetNameFromHashKey(streetHash),
+        road = GetStreetNameFromHashKey(roadHash)
+    }
+    local weaponHash = GetSelectedPedWeapon(ped)
+    local weapon = Weapons[weaponHash].label
+    local vehicle = GetVehiclePedIsIn(ped, 0)
+    local vehicleName = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
+    local gender
+
+    if Config.Framework == "esx" then
+        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+    else
+        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+    end
+
+    TriggerServerEvent("aty_dispatch:server:customDispatch", title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite, jobs)
+end)
 
 function createBlip(x, y, z, sprite, color, text, size)
     local size = size or 1.0
