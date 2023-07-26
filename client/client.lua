@@ -38,46 +38,59 @@ CreateThread(function()
         local sleep = 500
         local ped = PlayerPedId()
 
-        for k, jobs in pairs(Config.WhitelistedJobs) do
-            if PlayerData.job.name ~= jobs then
-                if Config.Enable.Shooting then
-                    if IsPedArmed(ped, 4) then
-                        sleep = 10
-            
-                        if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
-                            local coords = GetEntityCoords(ped)
-                            local streetHash, roadHash = GetStreetNameAtCoord(table.unpack(coords))
-                            local location = {
-                                street = GetStreetNameFromHashKey(streetHash),
-                                road = GetStreetNameFromHashKey(roadHash)
-                            }
-                            local weaponHash = GetSelectedPedWeapon(ped)
-                            local weapon = Weapons[weaponHash].label
-                            local vehicle = GetVehiclePedIsIn(ped, 0)
-                            local vehicleName = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
-                            local gender
+        if Config.Enable.Shooting then
+            if IsPedArmed(ped, 4) then
+                sleep = 10
+    
+                if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
 
-                            if Config.Framework == "esx" then
-                                if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
-                            else
-                                if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
-                            end
-
-                            ShootingDispatch(location, coords, gender, weapon, vehicleName, vehicle, {"police"})
-                            WaitTimes.Shooting = Config.WaitTimes.Shooting
+                    for k, jobs in pairs(Config.WhitelistedJobs) do
+                        if jobs == PlayerData.job.name then
+                            return
                         end
+                    end
+
+                    Wait(100)
+
+                    local coords = GetEntityCoords(ped)
+                    local streetHash, roadHash = GetStreetNameAtCoord(table.unpack(coords))
+                    local location = {
+                        street = GetStreetNameFromHashKey(streetHash),
+                        road = GetStreetNameFromHashKey(roadHash)
+                    }
+                    local weaponHash = GetSelectedPedWeapon(ped)
+                    local weapon = Weapons[weaponHash].label
+                    local vehicle = GetVehiclePedIsIn(ped, 0)
+                    local vehicleName = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
+                    local gender
+
+                    if Config.Framework == "esx" then
+                        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+                    else
+                        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+                    end
+
+                    ShootingDispatch(location, coords, gender, weapon, vehicleName, vehicle, {"police"})
+                    WaitTimes.Shooting = Config.WaitTimes.Shooting
+                end
+            end
+        end
+
+        if Config.Enable.Speeding then
+            if IsPedInAnyVehicle(ped, 0) then
+                local vehicle = GetVehiclePedIsIn(ped, 0)
+    
+                for k, jobs in pairs(Config.WhitelistedJobs) do
+                    if jobs == PlayerData.job.name then
+                        return
                     end
                 end
-        
-                if Config.Enable.Speeding then
-                    if IsPedInAnyVehicle(ped, 0) then
-                        local vehicle = GetVehiclePedIsIn(ped, 0)
-            
-                        if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
-                            SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
-                            WaitTimes.Speeding = Config.WaitTimes.Speeding
-                        end
-                    end
+
+                Wait(100)
+
+                if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
+                    SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
+                    WaitTimes.Speeding = Config.WaitTimes.Speeding
                 end
             end
         end
@@ -93,14 +106,13 @@ AddEventHandler('gameEventTriggered', function(event, data)
         if victimDied and NetworkGetPlayerIndexFromPed(victim) == PlayerId() and IsEntityDead(PlayerPedId()) then
             if not isDead then
                 Wait(3000)
-                for k, jobs in pairs(Config.WhitelistedJobs) do
-                    if PlayerData.job.name == jobs and PlayerData.job.name ~= "ambulance" then
-                        SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
-                        return
-                    else
-                        SendDispatch("Civilian Down!", "10-11", 61, {"police", "ambulance"})
-                        return
-                    end
+                
+                if PlayerData.job.name == jobs and PlayerData.job.name ~= "ambulance" then
+                    SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
+                    return
+                else
+                    SendDispatch("Civilian Down!", "10-11", 61, {"police", "ambulance"})
+                    return
                 end
             end
         end
