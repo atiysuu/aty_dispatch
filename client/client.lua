@@ -17,7 +17,7 @@ CreateThread(function()
 
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
-            PlayerJob = PlayerData.job
+            PlayerJob = PlayerData.job.name
         else
             PlayerData = Framework.Functions.GetPlayerData()
             PlayerJob = PlayerData.job.name
@@ -43,16 +43,16 @@ CreateThread(function()
 
         if Config.Enable.Shooting then
             if IsPedArmed(ped, 4) then
-                sleep = 10
-    
+                sleep = 5
+                
                 if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
-
-                    for k, jobs in pairs(Config.WhitelistedJobs) do
-                        if jobs == PlayerJob then
-                            return
-                        end
-                    end
-
+                    
+                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
+                    --     if jobs == PlayerJob then
+                    --         return
+                    --     end
+                    -- end
+                    
                     Wait(100)
 
                     local coords = GetEntityCoords(ped)
@@ -82,16 +82,16 @@ CreateThread(function()
         if Config.Enable.Speeding then
             if IsPedInAnyVehicle(ped, 0) then
                 local vehicle = GetVehiclePedIsIn(ped, 0)
-    
-                for k, jobs in pairs(Config.WhitelistedJobs) do
-                    if jobs == PlayerJob then
-                        return
-                    end
-                end
 
                 Wait(100)
 
                 if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
+                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
+                    --     if jobs == PlayerJob then
+                    --         return
+                    --     end
+                    -- end
+
                     SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
                     WaitTimes.Speeding = Config.WaitTimes.Speeding
                 end
@@ -110,7 +110,7 @@ AddEventHandler('gameEventTriggered', function(event, data)
             if not isDead then
                 Wait(3000)
                 
-                if PlayerJob == jobs and PlayerJob~= "ambulance" then
+                if PlayerJob == jobs and PlayerJob ~= "ambulance" then
                     SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
                     return
                 else
