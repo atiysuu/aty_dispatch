@@ -8,14 +8,28 @@ WaitTimes = {
     Speeding = 0,
 }
 
+function table_size(tbl)
+	local size = 0
+
+	for k, v in pairs(tbl) do
+		size = size + 1
+	end
+
+	return size
+end
+
 CreateThread(function()
     while true do
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
-            PlayerJob = PlayerData.job.name
+            if table_size(PlayerData) > 0 then
+                PlayerJob = PlayerData.job.name
+            end
         else
             PlayerData = Framework.Functions.GetPlayerData()
-            PlayerJob = PlayerData.job.name
+            if table_size(PlayerData) > 0 then
+                PlayerJob = PlayerData.job.name
+            end
         end
 
         for key, time in pairs(WaitTimes) do
@@ -48,11 +62,11 @@ CreateThread(function()
                 
                 if IsPedShooting(ped) and WaitTimes.Shooting == 0 and not IsWeaponBlackListed(ped) then
                     
-                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
-                    --     if jobs == PlayerJob then
-                    --         return
-                    --     end
-                    -- end
+                    for k, jobs in pairs(Config.WhitelistedJobs) do
+                        if jobs == PlayerJob then
+                            return
+                        end
+                    end
                                         
                     Wait(100)
 
@@ -87,11 +101,11 @@ CreateThread(function()
                 Wait(100)
 
                 if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
-                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
-                    --     if jobs == PlayerJob then
-                    --         return
-                    --     end
-                    -- end
+                    for k, jobs in pairs(Config.WhitelistedJobs) do
+                        if jobs == PlayerJob then
+                            return
+                        end
+                    end
 
                     SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
                     WaitTimes.Speeding = Config.WaitTimes.Speeding
