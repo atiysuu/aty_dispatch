@@ -12,6 +12,7 @@ client_scripts {
     'client/weapons.lua',
     'client/colors.lua',
     'client/client.lua',
+    'client/commands.lua',
 }
 
 server_scripts {

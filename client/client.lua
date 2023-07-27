@@ -2,6 +2,7 @@ Framework = Config.Framework == "esx" and exports['es_extended']:getSharedObject
 PlayerData = {}
 blips = {}
 PlayerJob = ""
+latestDispatch = nil
 WaitTimes = {
     Shooting = 0,
     Speeding = 0,
@@ -9,18 +10,18 @@ WaitTimes = {
 
 CreateThread(function()
     while true do
-        for key, time in pairs(WaitTimes) do
-            if WaitTimes[key] > 0 then
-                WaitTimes[key] = WaitTimes[key] - 1
-            end
-        end
-
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
             PlayerJob = PlayerData.job.name
         else
             PlayerData = Framework.Functions.GetPlayerData()
             PlayerJob = PlayerData.job.name
+        end
+
+        for key, time in pairs(WaitTimes) do
+            if WaitTimes[key] > 0 then
+                WaitTimes[key] = WaitTimes[key] - 1
+            end
         end
 
         for i, blip in pairs(blips) do
@@ -45,14 +46,14 @@ CreateThread(function()
             if IsPedArmed(ped, 4) then
                 sleep = 5
                 
-                if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
+                if IsPedShooting(ped) and WaitTimes.Shooting == 0 and not IsWeaponBlackListed(ped) then
                     
-                    for k, jobs in pairs(Config.WhitelistedJobs) do
-                        if jobs == PlayerJob then
-                            return
-                        end
-                    end
-                    
+                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
+                    --     if jobs == PlayerJob then
+                    --         return
+                    --     end
+                    -- end
+                                        
                     Wait(100)
 
                     local coords = GetEntityCoords(ped)
@@ -86,11 +87,11 @@ CreateThread(function()
                 Wait(100)
 
                 if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
-                    for k, jobs in pairs(Config.WhitelistedJobs) do
-                        if jobs == PlayerJob then
-                            return
-                        end
-                    end
+                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
+                    --     if jobs == PlayerJob then
+                    --         return
+                    --     end
+                    -- end
 
                     SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
                     WaitTimes.Speeding = Config.WaitTimes.Speeding
@@ -140,6 +141,8 @@ RegisterNetEvent("aty_dispatch:client:shootingDispatch", function(title, code, l
 
     table.insert(blips, {createBlip(coords.x, coords.y, coords.z, 110, 1, title, 1.0), Config.BlipRemoveTime})
 
+    latestDispatch = coords
+
     SendNUIMessage({
         action = "dispatch",
         title = title,
@@ -173,6 +176,8 @@ RegisterNetEvent("aty_dispatch:client:customDispatch", function(title, code, loc
 
     table.insert(blips, {createBlip(coords.x, coords.y, coords.z, blipSprite, 1, title, 1.0), Config.BlipRemoveTime})
 
+    latestDispatch = coords
+
     SendNUIMessage({
         action = "dispatch",
         title = title,
@@ -188,23 +193,17 @@ RegisterNetEvent("aty_dispatch:client:customDispatch", function(title, code, loc
     })
 end)
 
-RegisterCommand("911", function()
-    SendDispatch("Citizen needs help!", "10-11", 61, {"police", "ambulance"})
-end)
-
-RegisterCommand("showDispatch", function()
-    for k, jobs in pairs(Config.WhitelistedJobs) do
-        if PlayerJob == jobs then
-            SendNUIMessage({
-                action = "showDispatch"
-            })
-
-            SetNuiFocus(1, 1)
-            return
-        end
-    end
-end)
-
 RegisterNUICallback("close", function()
     SetNuiFocus(0, 0)
 end)
+
+RegisterCommand('respondDispatch', function()
+	if latestDispatch then 
+		SetWaypointOff() 
+		SetNewWaypoint(latestDispatch.x, latestDispatch.y)
+        Config.Notification("Waypoint", "Waypoint Set.", "success", 5000)
+        latestDispatch = nil
+	end
+end)
+
+RegisterKeyMapping('respondDispatch', 'Respond To Latest Dispatch', 'keyboard', Config.SetWaypoingKey)

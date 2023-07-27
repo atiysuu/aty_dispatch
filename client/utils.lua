@@ -74,3 +74,15 @@ function createBlip(x, y, z, sprite, color, text, size)
 
     return blip
 end
+
+function IsWeaponBlackListed(ped)
+	for i, weapon in pairs(Config.BlackListedWeapons) do
+		local weaponHash = GetHashKey(Config.BlackListedWeapons[i])
+
+		if GetSelectedPedWeapon(ped) == weaponHash then
+			return true 
+		end
+	end
+
+	return false
+end
