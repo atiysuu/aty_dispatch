@@ -47,11 +47,11 @@ CreateThread(function()
                 
                 if IsPedShooting(ped) and WaitTimes.Shooting == 0 then
                     
-                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
-                    --     if jobs == PlayerJob then
-                    --         return
-                    --     end
-                    -- end
+                    for k, jobs in pairs(Config.WhitelistedJobs) do
+                        if jobs == PlayerJob then
+                            return
+                        end
+                    end
                     
                     Wait(100)
 
@@ -86,11 +86,11 @@ CreateThread(function()
                 Wait(100)
 
                 if (GetEntitySpeed(vehicle) * 3.6) >= 120 and WaitTimes.Speeding == 0 then
-                    -- for k, jobs in pairs(Config.WhitelistedJobs) do
-                    --     if jobs == PlayerJob then
-                    --         return
-                    --     end
-                    -- end
+                    for k, jobs in pairs(Config.WhitelistedJobs) do
+                        if jobs == PlayerJob then
+                            return
+                        end
+                    end
 
                     SendDispatch("Vehicle speeding!", "10-11", 227, {"police"})
                     WaitTimes.Speeding = Config.WaitTimes.Speeding
