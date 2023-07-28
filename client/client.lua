@@ -8,26 +8,16 @@ WaitTimes = {
     Speeding = 0,
 }
 
-function table_size(tbl)
-	local size = 0
-
-	for k, v in pairs(tbl) do
-		size = size + 1
-	end
-
-	return size
-end
-
 CreateThread(function()
     while true do
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
-            if table_size(PlayerData) > 0 then
+            if next(PlayerData) then
                 PlayerJob = PlayerData.job.name
             end
         else
             PlayerData = Framework.Functions.GetPlayerData()
-            if table_size(PlayerData) > 0 then
+            if next(PlayerData) then
                 PlayerJob = PlayerData.job.name
             end
         end
