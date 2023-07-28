@@ -215,7 +215,7 @@ RegisterCommand('respondDispatch', function()
 	if latestDispatch then 
 		SetWaypointOff() 
 		SetNewWaypoint(latestDispatch.x, latestDispatch.y)
-        Config.Notification("Waypoint", "Waypoint Set.", "success", 5000)
+        Config.Notification(false, "Waypoint", "Waypoint Set.", "success", 5000)
         latestDispatch = nil
 	end
 end)
