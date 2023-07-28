@@ -8,26 +8,16 @@ WaitTimes = {
     Speeding = 0,
 }
 
-function table_size(tbl)
-	local size = 0
-
-	for k, v in pairs(tbl) do
-		size = size + 1
-	end
-
-	return size
-end
-
 CreateThread(function()
     while true do
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
-            if table_size(PlayerData) > 0 then
+            if next(PlayerData) then
                 PlayerJob = PlayerData.job.name
             end
         else
             PlayerData = Framework.Functions.GetPlayerData()
-            if table_size(PlayerData) > 0 then
+            if next(PlayerData) then
                 PlayerJob = PlayerData.job.name
             end
         end
@@ -83,9 +73,9 @@ CreateThread(function()
                     local gender
 
                     if Config.Framework == "esx" then
-                        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+                        gender = PlayerData.sex == 1 and "Female" or "Male"
                     else
-                        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+                        gender = PlayerData.charinfo.gender == 1 and "Female" or "Male"
                     end
 
                     ShootingDispatch(location, coords, gender, weapon, vehicleName, vehicle, {"police"})
@@ -215,7 +205,7 @@ RegisterCommand('respondDispatch', function()
 	if latestDispatch then 
 		SetWaypointOff() 
 		SetNewWaypoint(latestDispatch.x, latestDispatch.y)
-        Config.Notification("Waypoint", "Waypoint Set.", "success", 5000)
+        Config.Notification(false, "Waypoint", "Waypoint Set.", "success", 5000)
         latestDispatch = nil
 	end
 end)

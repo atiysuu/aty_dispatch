@@ -25,8 +25,12 @@ Config = {
 
     BlipRemoveTime = 30, -- Seconds
 
-    Notification = function(title, message, type, length)
-        -- Your notification here
+    Notification = function(src, title, message, type, length)
+        if src then
+            -- Your Server Notification
+        else
+            -- Your Client Notification
+        end
     end,
 
     BlackListedWeapons = { -- Weapons that wont give andalert
