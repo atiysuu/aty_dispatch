@@ -13,8 +13,6 @@ RegisterNetEvent("aty_dispatch:server:shootingDispatch", function(title, code, l
                     local item = xPlayer.Functions.GetItemByName(Config.GPSItem) and xPlayer.Functions.GetItemByName(Config.GPSItem).amount or 0
                     if xPlayer.PlayerData.job.name == job and item > 0 then
                         TriggerClientEvent("aty_dispatch:client:shootingDispatch", player, title, code, location, coords, gender, weapon, vehicleName, vehicle)
-                    elseif not item then
-                        Config.Notification("GPS", "You don't have a gps on you.", "error", 5000)
                     end
                 end
             else
@@ -32,8 +30,6 @@ RegisterNetEvent("aty_dispatch:server:shootingDispatch", function(title, code, l
                     local item = xPlayer.getInventoryItem(Config.GPSItem) and xPlayer.getInventoryItem(Config.GPSItem).count or 0
                     if xPlayer.job.name == job and item > 0 then
                         TriggerClientEvent("aty_dispatch:client:shootingDispatch", player, title, code, location, coords, gender, weapon, vehicleName, vehicle)
-                    elseif not item then
-                        Config.Notification("GPS", "You don't have a gps on you.", "error", 5000)
                     end
                 end
             else
@@ -60,8 +56,6 @@ RegisterNetEvent("aty_dispatch:server:customDispatch", function(title, code, loc
                     local item = xPlayer.Functions.GetItemByName(Config.GPSItem) and xPlayer.Functions.GetItemByName(Config.GPSItem).amount or 0
                     if xPlayer.PlayerData.job.name == job and item > 0 then
                         TriggerClientEvent("aty_dispatch:client:customDispatch", player, title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite)
-                    elseif not item then
-                        Config.Notification("GPS", "You don't have a gps on you.", "error", 5000)
                     end
                 end
             else
@@ -79,8 +73,6 @@ RegisterNetEvent("aty_dispatch:server:customDispatch", function(title, code, loc
                     local item = xPlayer.getInventoryItem(Config.GPSItem) and xPlayer.getInventoryItem(Config.GPSItem).count or 0
                     if xPlayer.job.name == job and item > 0 then
                         TriggerClientEvent("aty_dispatch:client:customDispatch", player, title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite)
-                    elseif not item then
-                        Config.Notification("GPS", "You don't have a gps on you.", "error", 5000)
                     end
                 end
             else
