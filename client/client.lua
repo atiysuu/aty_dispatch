@@ -73,9 +73,9 @@ CreateThread(function()
                     local gender
 
                     if Config.Framework == "esx" then
-                        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+                        gender = PlayerData.sex == 1 and "Female" or "Male"
                     else
-                        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+                        gender = PlayerData.charinfo.gender == 1 and "Female" or "Male"
                     end
 
                     ShootingDispatch(location, coords, gender, weapon, vehicleName, vehicle, {"police"})

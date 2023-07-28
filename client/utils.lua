@@ -25,9 +25,9 @@ function SendDispatch(title, code, blipSprite, jobs)
     local gender
 
     if Config.Framework == "esx" then
-        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+        gender = PlayerData.sex == 1 and "Female" or "Male"
     else
-        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+        gender = PlayerData.charinfo.gender == 1 and "Female" or "Male"
     end
 
     TriggerServerEvent("aty_dispatch:server:customDispatch", title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite, jobs)
@@ -52,9 +52,9 @@ RegisterNetEvent("aty_dispatch:SendDispatch", function(title, code, blipSprite, 
     local gender
 
     if Config.Framework == "esx" then
-        if PlayerData.sex == 1 then gender = "Female" else gender = "Male" end
+        gender = PlayerData.sex == 1 and "Female" or "Male"
     else
-        if PlayerData.charinfo.gender == 1 then gender = "Female" else gender = "Male" end
+        gender = PlayerData.charinfo.gender == 1 and "Female" or "Male"
     end
 
     TriggerServerEvent("aty_dispatch:server:customDispatch", title, code, location, coords, gender, vehicleName, vehicle, weapon, blipSprite, jobs)
