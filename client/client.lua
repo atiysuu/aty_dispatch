@@ -115,12 +115,14 @@ AddEventHandler('gameEventTriggered', function(event, data)
             if not isDead then
                 Wait(3000)
                 
-                if PlayerJob == jobs and PlayerJob ~= "ambulance" then
-                    SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
-                    return
-                else
-                    SendDispatch("Civilian Down!", "10-11", 61, {"police", "ambulance"})
-                    return
+                for _, jobs in pairs(Config.WhitelistedJobs) do
+                    if PlayerJob == jobs and PlayerJob ~= "ambulance" then
+                        SendDispatch("Officer Down!", "10-11", 61, {"police", "ambulance"})
+                        return
+                    else
+                        SendDispatch("Civilian Down!", "10-11", 61, {"police", "ambulance"})
+                        return
+                    end
                 end
             end
         end
