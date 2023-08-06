@@ -84,5 +84,20 @@ function IsWeaponBlackListed(ped)
 		end
 	end
 
+    Wait(10)
+
 	return false
+end
+
+
+function IsWeaponHasSuppressor(ped) 
+    for _, hash in pairs(Config.Suppressors) do
+        if HasPedGotWeaponComponent(ped, GetSelectedPedWeapon(ped), hash) then
+            return true
+        end
+    end
+
+    Wait(10)
+
+    return false
 end

@@ -50,7 +50,7 @@ CreateThread(function()
             if IsPedArmed(ped, 4) then
                 sleep = 5
                 
-                if IsPedShooting(ped) and WaitTimes.Shooting == 0 and not IsWeaponBlackListed(ped) then
+                if IsPedShooting(ped) and WaitTimes.Shooting == 0 and not IsWeaponBlackListed(ped) and not IsWeaponHasSuppressor(ped) then
                     
                     for k, jobs in pairs(Config.WhitelistedJobs) do
                         if jobs == PlayerJob then
