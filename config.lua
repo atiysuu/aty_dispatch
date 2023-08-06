@@ -1,9 +1,6 @@
 Config = {
     Framework = "qb", -- qb / esx
-
-    UseGPS = true, -- Players will receive an alert if only they have a gps 
     GPSItem = "gps",
-
     SetWaypoingKey = "G",
 
     WaitTimes = { -- Cooldown after a dispatch to send another one.
@@ -15,6 +12,8 @@ Config = {
         Speeding = true,
         Shooting = true,
         PlayerDeath = true,
+        SuppressorControl = true,
+        UseGPS = true, -- Players will receive an alert if only they have a gps 
     },
 
     WhitelistedJobs = { -- Jobs that won't going to give an alert.

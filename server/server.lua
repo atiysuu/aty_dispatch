@@ -8,7 +8,7 @@ RegisterNetEvent("aty_dispatch:server:shootingDispatch", function(title, code, l
         if Config.Framework == "qb" then
             local xPlayer = Framework.Functions.GetPlayer(player)
             
-            if Config.UseGPS then
+            if Config.Enable.UseGPS then
                 for _, job in pairs(jobs) do
                     local item = xPlayer.Functions.GetItemByName(Config.GPSItem) and xPlayer.Functions.GetItemByName(Config.GPSItem).amount or 0
                     if xPlayer.PlayerData.job.name == job and item > 0 then
@@ -25,7 +25,7 @@ RegisterNetEvent("aty_dispatch:server:shootingDispatch", function(title, code, l
         else
             local xPlayer = Framework.GetPlayerFromId(player)
 
-            if Config.UseGPS then
+            if Config.Enable.UseGPS then
                 for _, job in pairs(jobs) do
                     local item = xPlayer.getInventoryItem(Config.GPSItem) and xPlayer.getInventoryItem(Config.GPSItem).count or 0
                     if xPlayer.job.name == job and item > 0 then
@@ -51,7 +51,7 @@ RegisterNetEvent("aty_dispatch:server:customDispatch", function(title, code, loc
         if Config.Framework == "qb" then
             local xPlayer = Framework.Functions.GetPlayer(player)
             
-            if Config.UseGPS then
+            if Config.Enable.UseGPS then
                 for _, job in pairs(jobs) do
                     local item = xPlayer.Functions.GetItemByName(Config.GPSItem) and xPlayer.Functions.GetItemByName(Config.GPSItem).amount or 0
                     if xPlayer.PlayerData.job.name == job and item > 0 then
@@ -68,7 +68,7 @@ RegisterNetEvent("aty_dispatch:server:customDispatch", function(title, code, loc
         else
             local xPlayer = Framework.GetPlayerFromId(player)
 
-            if Config.UseGPS then
+            if Config.Enable.UseGPS then
                 for _, job in pairs(jobs) do
                     local item = xPlayer.getInventoryItem(Config.GPSItem) and xPlayer.getInventoryItem(Config.GPSItem).count or 0
                     if xPlayer.job.name == job and item > 0 then
