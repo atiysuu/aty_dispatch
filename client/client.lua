@@ -52,18 +52,16 @@ CreateThread(function()
                 
                 if IsPedShooting(ped) and WaitTimes.Shooting == 0 and not IsWeaponBlackListed(ped) then
 
-                    if Config.Enable.UseSuppressorControl and not IsWeaponHasSuppressor(ped) then
+                    if Config.Enable.UseSuppressorControl and IsWeaponHasSuppressor(ped) then
                         return
                     end
-                    
+
                     for k, jobs in pairs(Config.WhitelistedJobs) do
                         if jobs == PlayerJob then
                             return
                         end
                     end
                                         
-                    Wait(100)
-
                     local coords = GetEntityCoords(ped)
                     local streetHash, roadHash = GetStreetNameAtCoord(table.unpack(coords))
                     local location = {

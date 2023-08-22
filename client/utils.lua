@@ -92,6 +92,7 @@ end
 
 function IsWeaponHasSuppressor(ped) 
     for _, hash in pairs(Config.Suppressors) do
+        print(HasPedGotWeaponComponent(ped, GetSelectedPedWeapon(ped), hash))
         if HasPedGotWeaponComponent(ped, GetSelectedPedWeapon(ped), hash) then
             return true
         end

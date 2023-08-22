@@ -12,7 +12,7 @@ Config = {
         Speeding = true,
         Shooting = true,
         PlayerDeath = true,
-        SuppressorControl = true,
+        UseSuppressorControl = true,
         UseGPS = true, -- Players will receive an alert if only they have a gps 
     },
 
