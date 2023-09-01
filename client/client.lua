@@ -12,12 +12,12 @@ CreateThread(function()
     while true do
         if Config.Framework == "esx" then
             PlayerData = Framework.GetPlayerData()
-            if next(PlayerData) then
+            if table_size(PlayerData) > 6 then
                 PlayerJob = PlayerData.job.name
             end
         else
             PlayerData = Framework.Functions.GetPlayerData()
-            if next(PlayerData) then
+            if table_size(PlayerData) > 6 then
                 PlayerJob = PlayerData.job.name
             end
         end

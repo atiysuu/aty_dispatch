@@ -102,3 +102,13 @@ function IsWeaponHasSuppressor(ped)
 
     return false
 end
+
+function table_size(tbl)
+	local size = 0
+
+	for k, v in pairs(tbl) do
+		size = size + 1
+	end
+
+	return size
+end
